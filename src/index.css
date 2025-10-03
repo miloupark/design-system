@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* color */
+  /* Color tokens */
   --color-primary: #1d2745;
   --color-secondary: #1de5d4;
   --color-tertiary: #f52c50;
@@ -11,11 +11,13 @@
   --color-mono-300: #d6d7d9;
   --color-error: #d01e1e;
 
-  /* font */
+  /* Font tokens */
+  --font-sans: "Noto Sans KR", ui-sans-serif, system-ui, sans-serif;
+
   --text-xs: 12px {
     line-height: 18px;
     letter-spacing: 0;
-    font-weight: 700;
+    font-weight: 400;
   }
 
   --text-sm: 14px {
@@ -47,4 +49,8 @@
     letter-spacing: 0;
     font-weight: 700;
   }
+}
+
+body {
+  font-family: var(--font-sans);
 }
