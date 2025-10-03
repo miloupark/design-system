@@ -1,73 +1,84 @@
-# React + TypeScript + Vite
+# Design System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- [🔖 Storybook for React & Vite](https://storybook.js.org/docs/get-started/frameworks/react-vite?renderer=react)
+- [🎨 Tailwind CSS v4 + Vite](https://tailwindcss.com/docs/installation/using-vite)
 
-Currently, two official plugins are available:
+<br>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Install Storybook
 
-## React Compiler
+```bash
+# 프로젝트에 스토리북 추가
+$ npx storybook@latest init
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# 스토리북 실행
+$ npm run storybook
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# v9에선 별도 설치가 필요 없음
+$ npm install @storybook/builder-vite --save-dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+<br>
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 📁 .storybook > main.ts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
+```ts
+const config: StorybookConfig = {
+  // ...
+  core: {
+    builder: "@storybook/builder-vite", // 👈 Add this
   },
-])
+};
+```
+
+<br>
+
+### Install Tailwind CSS (v4)
+
+```bash
+$ npm install tailwindcss @tailwindcss/vite
+```
+
+#### 📁 index.css
+
+v4에서는 tailwind.config.js 없이도 동작 (커스텀 토큰은 @theme로 CSS에 정의)
+
+```css
+/* index.css */
+@import "tailwindcss";
+
+/* (선택) 디자인 토큰 정의 - Tailwind v4 @theme */
+@theme {
+  --color-primary: #1d2745;
+  /* ... */
+
+  --text-xs: 12px {
+    line-height: 18px;
+    font-weight: 700;
+  }
+  /* ... */
+```
+
+#### 📁 vite.config.ts
+
+```ts
+// vite.config.ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwind from "@tailwindcss/vite"; // 👈 Add this
+
+export default defineConfig({
+  plugins: [react(), tailwind()], // 👈 Add this
+});
+```
+
+<br>
+
+### Install Font (선택)
+
+- [fontsource](https://fontsource.org/)
+- [@fontsource/noto-sans-kr](https://www.npmjs.com/package/@fontsource/noto-sans-kr)
+
+```bash
+$ npm i @fontsource/noto-sans-kr
 ```
